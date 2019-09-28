@@ -1,8 +1,8 @@
-exports.getPosts = (req, res) => {
-    res.json({
-        posts: [
-            {title: "First Post"},
-            {title: "Second Post"}
-        ]
-    })
-};
+const express = require('express');
+const postController = require('../controllers/post');
+
+const router = express.Router();
+
+router.get('/', postController.getPosts);
+
+module.exports = router;
