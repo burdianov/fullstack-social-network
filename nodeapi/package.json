@@ -11,5 +11,8 @@
     "api"
   ],
   "author": "Lilian Burdianov",
-  "license": "ISC"
+  "license": "ISC",
+  "dependencies": {
+    "express": "^4.17.1"
+  }
 }
