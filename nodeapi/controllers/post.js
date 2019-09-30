@@ -1,13 +1,13 @@
 const Post = require("../models/post");
 const {validationResult} = require('express-validator');
 
-exports.getPosts = (req, res) => {
-    res.json({
-        posts: [
-            {title: "First post"},
-            {title: "Second post"}
-        ]
-    });
+exports.getPosts = async (req, res) => {
+    try {
+        const posts = await Post.find().select("_id title body");
+        await res.json({posts});
+    } catch(err) {
+        console.error(err);
+    }
 };
 
 exports.createPost = (req, res) => {
@@ -23,7 +23,7 @@ exports.createPost = (req, res) => {
     }
     const post = new Post(req.body);
     post.save().then(result => {
-        res.status(200).json({
+        res.json({
             post: result
         })
     });
