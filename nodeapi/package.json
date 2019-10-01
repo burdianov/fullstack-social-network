@@ -19,7 +19,8 @@
     "express": "^4.17.1",
     "express-validator": "^6.2.0",
     "mongoose": "^5.7.1",
-    "nodemon": "^1.19.2"
+    "nodemon": "^1.19.2",
+    "uuid": "^3.3.3"
   },
   "devDependencies": {
     "morgan": "^1.9.1"
