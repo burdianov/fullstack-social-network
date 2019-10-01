@@ -20,11 +20,13 @@ mongoose.connection.on('error', err => {
 
 // routes
 const postRoutes = require("./routes/post");
+const authRoutes = require("./routes/auth");
 
 // middleware
 app.use(morgan("dev"));
 app.use(bodyParser.json());
 app.use("/", postRoutes);
+app.use("/", authRoutes);
 
 const port = process.env.PORT || 8080;
 app.listen(8080, () => {
