@@ -12,3 +12,13 @@ exports.createPostValidator = [
         max: 2000
     })
 ];
+
+exports.userSignupValidator = [
+    check("name", "Name is required").not().isEmpty(),
+    check("email", "Enter a valid email").isEmail(),
+    check("password", "Password is required").not().isEmpty(),
+    check("password").isLength({min: 6})
+        .withMessage("Password must have at least 6 characters")
+        .matches(/\d/)
+        .withMessage("Password must contain a digit")
+];
