@@ -1,4 +1,4 @@
-const {check} = require('express-validator');
+const {check} = require("express-validator");
 
 exports.createPostValidator = [
     check("title", "Add a title").not().isEmpty(),

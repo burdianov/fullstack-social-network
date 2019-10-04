@@ -1,8 +1,8 @@
-const jwt = require('jsonwebtoken');
-require('dotenv').config();
-const expressJwt = require('express-jwt');
-const User = require('../models/user');
-const {validationResult} = require('express-validator');
+const jwt = require("jsonwebtoken");
+require("dotenv").config();
+const expressJwt = require("express-jwt");
+const User = require("../models/user");
+const {validationResult} = require("express-validator");
 
 exports.signUp = async (req, res) => {
     // check for errors
@@ -42,7 +42,7 @@ exports.signIn = (req, res) => {
 
         // provide the token to the frontend in two ways - user will decide
         // which one to use
-        // 1: persist the token as 'tkn' in cookie with expiry date
+        // 1: persist the token as "tkn" in cookie with expiry date
         res.cookie("tkn", token, {expire: new Date() + 360000});
 
         // 2: return response with user and token to frontend client
