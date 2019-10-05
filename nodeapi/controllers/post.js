@@ -5,7 +5,9 @@ const fs = require("fs");
 
 exports.getPosts = async (req, res) => {
     try {
-        const posts = await Post.find().select("_id title body");
+        const posts = await Post.find()
+            .populate("postedBy", "_id name")
+            .select("_id title body");
         await res.json({posts});
     } catch (err) {
         console.error(err);
