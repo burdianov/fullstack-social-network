@@ -51,3 +51,17 @@ exports.createPost = (req, res, next) => {
         });
     });
 };
+
+exports.getPostsByUser = (req, res) => {
+    Post.find({postedBy: req.profile._id})
+        .populate("postedBy", "_id name")
+        .sort("createdAt")
+        .exec((err, posts) => {
+            if (err) {
+                return res.status(400).json({
+                    error: err
+                })
+            }
+            res.json(posts)
+        });
+};
