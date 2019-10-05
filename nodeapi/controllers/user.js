@@ -43,7 +43,7 @@ exports.updateUser = (req, res, next) => {
     let user = req.profile;
     user = _.extend(user, req.body); // extend mutates the source object
     user.save((err) => {
-        if(err) {
+        if (err) {
             return res.status(400).json({
                 error: "You are not authorized to perform this action"
             })
@@ -51,5 +51,17 @@ exports.updateUser = (req, res, next) => {
         user.hashed_password = undefined;
         user.salt = undefined;
         res.json({user});
+    });
+};
+
+exports.deleteUser = (req, res, next) => {
+    let user = req.profile;
+    user.remove((err, user) => {
+        if (err) {
+            return res.status(400).json({
+                error: err
+            })
+        }
+        res.json({message: "User deleted successfully."});
     });
 };
