@@ -79,3 +79,28 @@ exports.getPostsByUser = (req, res) => {
             res.json(posts)
         });
 };
+
+exports.isPoster = (req, res, next) => {
+    let isPoster = req.post && req.auth && req.post.postedBy._id.toString() === req.auth._id.toString();
+
+    if (!isPoster) {
+        return res.status(403).json({
+            error: "User not authorized."
+        })
+    }
+    next();
+};
+
+exports.deletePost = (req, res) => {
+    let post = req.post;
+    post.remove((err, post) => {
+        if (err) {
+            return res.status(400).json({
+                error: err
+            })
+        }
+        res.json({
+            message: "Post deleted successfully."
+        })
+    });
+};
