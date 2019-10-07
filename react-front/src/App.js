@@ -1,11 +1,11 @@
 import React from 'react';
+import {BrowserRouter} from 'react-router-dom';
+import MainRouter from "./components/MainRouter";
 
-const App = () => {
-    return (
-        <div>
-            <h1>React Frontend</h1>
-        </div>
-    );
-};
+const App = () => (
+    <BrowserRouter>
+        <MainRouter/>
+    </BrowserRouter>
+);
 
 export default App;
