@@ -5,8 +5,10 @@ const Signup = () => {
     const [email, setEmail] = useState("");
     const [password, setPassword] = useState("");
     const [error, setError] = useState("");
+    const [open, setOpen] = useState(false);
 
     const handleChange = name => e => {
+        setError("");
         const value = e.target.value;
         switch (name) {
             case "name":
@@ -39,10 +41,11 @@ const Signup = () => {
                     setEmail("");
                     setPassword("");
                     setError("");
+                    setOpen(true);
                 }
             });
     };
-    
+
     const signup = user => {
         return fetch("http://localhost:8080/signup", {
             method: "POST",
@@ -61,6 +64,15 @@ const Signup = () => {
     return (
         <div className="container">
             <h2 className="mt-5 mb-5">Signup</h2>
+
+            <div className="alert alert-danger"
+                 style={{display: error ? "" : "none"}}>
+                {error}
+            </div>
+            <div className="alert alert-info"
+                 style={{display: open ? "" : "none"}}>
+                New account successfully created. Please sign in.
+            </div>
             <form>
                 <div className="form-group">
                     <label className="text-muted">Name</label>
