@@ -61,6 +61,38 @@ const Signup = () => {
             .catch(err => console.log(err));
     };
 
+    const signupForm = () => (
+        <form>
+            <div className="form-group">
+                <label className="text-muted">Name</label>
+                <input
+                    onChange={handleChange("name")}
+                    type="text"
+                    className="form-control"
+                    value={name}/>
+            </div>
+            <div className="form-group">
+                <label className="text-muted">Email</label>
+                <input
+                    onChange={handleChange("email")}
+                    type="email"
+                    className="form-control"
+                    value={email}/>
+            </div>
+            <div className="form-group">
+                <label className="text-muted">Password</label>
+                <input
+                    onChange={handleChange("password")}
+                    type="password"
+                    className="form-control"
+                    value={password}/>
+            </div>
+            <button onClick={clickSubmit}
+                    className="btn btn-raised btn-primary">Submit
+            </button>
+        </form>
+    );
+
     return (
         <div className="container">
             <h2 className="mt-5 mb-5">Signup</h2>
@@ -73,35 +105,7 @@ const Signup = () => {
                  style={{display: open ? "" : "none"}}>
                 New account successfully created. Please sign in.
             </div>
-            <form>
-                <div className="form-group">
-                    <label className="text-muted">Name</label>
-                    <input
-                        onChange={handleChange("name")}
-                        type="text"
-                        className="form-control"
-                        value={name}/>
-                </div>
-                <div className="form-group">
-                    <label className="text-muted">Email</label>
-                    <input
-                        onChange={handleChange("email")}
-                        type="email"
-                        className="form-control"
-                        value={email}/>
-                </div>
-                <div className="form-group">
-                    <label className="text-muted">Password</label>
-                    <input
-                        onChange={handleChange("password")}
-                        type="password"
-                        className="form-control"
-                        value={password}/>
-                </div>
-                <button onClick={clickSubmit}
-                        className="btn btn-raised btn-primary">Submit
-                </button>
-            </form>
+            {signupForm()}
         </div>
     );
 };
