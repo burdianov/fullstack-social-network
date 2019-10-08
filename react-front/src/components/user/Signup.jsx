@@ -30,7 +30,21 @@ const Signup = () => {
             email,
             password
         };
-        fetch("http://localhost:8080/signup", {
+        signup(user)
+            .then(data => {
+                if (data.error) {
+                    setError(data.error);
+                } else {
+                    setName("");
+                    setEmail("");
+                    setPassword("");
+                    setError("");
+                }
+            });
+    };
+    
+    const signup = user => {
+        return fetch("http://localhost:8080/signup", {
             method: "POST",
             headers: {
                 Accept: "application/json",
