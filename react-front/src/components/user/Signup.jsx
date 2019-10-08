@@ -6,8 +6,8 @@ const Signup = () => {
     const [password, setPassword] = useState("");
     const [error, setError] = useState("");
 
-    const handleChange = name => event => {
-        const value = event.target.value;
+    const handleChange = name => e => {
+        const value = e.target.value;
         switch (name) {
             case "name":
                 setName(value);
@@ -23,10 +23,30 @@ const Signup = () => {
         }
     };
 
+    const clickSubmit = (e) => {
+        e.preventDefault();
+        const user = {
+            name,
+            email,
+            password
+        };
+        fetch("http://localhost:8080/signup", {
+            method: "POST",
+            headers: {
+                Accept: "application/json",
+                "Content-Type": "application/json"
+            },
+            body: JSON.stringify(user)
+        })
+            .then(response => {
+                return response.json();
+            })
+            .catch(err => console.log(err));
+    };
+
     return (
         <div className="container">
             <h2 className="mt-5 mb-5">Signup</h2>
-
             <form>
                 <div className="form-group">
                     <label className="text-muted">Name</label>
@@ -52,7 +72,9 @@ const Signup = () => {
                         className="form-control"
                         value={password}/>
                 </div>
-                <button className="btn btn-raised btn-primary">Submit</button>
+                <button onClick={clickSubmit}
+                        className="btn btn-raised btn-primary">Submit
+                </button>
             </form>
         </div>
     );
