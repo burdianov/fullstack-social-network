@@ -1,4 +1,5 @@
 import React, {useState} from 'react';
+import {Redirect} from 'react-router-dom';
 
 const Signin = () => {
     const [email, setEmail] = useState("");
@@ -21,6 +22,13 @@ const Signin = () => {
         }
     };
 
+    const authenticate = (jwt, next) => {
+        if (typeof window !== "undefined") {
+            localStorage.setItem("jwt", JSON.stringify(jwt));
+            next();
+        }
+    };
+
     const clickSubmit = (e) => {
         e.preventDefault();
         const user = {
@@ -32,8 +40,9 @@ const Signin = () => {
                 if (data.error) {
                     setError(data.error);
                 } else {
-                    // authenticate
-                    // redirect
+                    authenticate(data, () => {
+                        setRedirectToReferrer(true);
+                    });
                 }
             });
     };
@@ -76,7 +85,9 @@ const Signin = () => {
             </button>
         </form>
     );
-
+    if (redirectToReferrer) {
+        return <Redirect to="/"/>
+    }
     return (
         <div className="container">
             <h2 className="mt-5 mb-5">Signin</h2>
