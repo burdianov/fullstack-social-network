@@ -6,6 +6,7 @@ const Signin = () => {
     const [password, setPassword] = useState("");
     const [error, setError] = useState("");
     const [redirectToReferrer, setRedirectToReferrer] = useState(false);
+    const [loading, setLoading] = useState(false);
 
     const handleChange = name => e => {
         setError("");
@@ -31,6 +32,7 @@ const Signin = () => {
 
     const clickSubmit = (e) => {
         e.preventDefault();
+        setLoading(true);
         const user = {
             email,
             password
@@ -39,6 +41,7 @@ const Signin = () => {
             .then(data => {
                 if (data.error) {
                     setError(data.error);
+                    setLoading(false);
                 } else {
                     authenticate(data, () => {
                         setRedirectToReferrer(true);
@@ -95,6 +98,11 @@ const Signin = () => {
                  style={{display: error ? "" : "none"}}>
                 {error}
             </div>
+
+            {loading && <div className="jumbotron text-center">
+                <h2>Loading...</h2>
+            </div>}
+            
             {signinForm()}
         </div>
     );
