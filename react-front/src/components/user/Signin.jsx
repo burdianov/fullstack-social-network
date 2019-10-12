@@ -1,5 +1,6 @@
 import React, {useState} from 'react';
 import {Redirect} from 'react-router-dom';
+import {authenticate, signin} from "../../auth";
 
 const Signin = () => {
     const [email, setEmail] = useState("");
@@ -23,13 +24,6 @@ const Signin = () => {
         }
     };
 
-    const authenticate = (jwt, next) => {
-        if (typeof window !== "undefined") {
-            localStorage.setItem("jwt", JSON.stringify(jwt));
-            next();
-        }
-    };
-
     const clickSubmit = (e) => {
         e.preventDefault();
         setLoading(true);
@@ -48,21 +42,6 @@ const Signin = () => {
                     });
                 }
             });
-    };
-
-    const signin = user => {
-        return fetch("http://localhost:8080/signin", {
-            method: "POST",
-            headers: {
-                Accept: "application/json",
-                "Content-Type": "application/json"
-            },
-            body: JSON.stringify(user)
-        })
-            .then(response => {
-                return response.json();
-            })
-            .catch(err => console.log(err));
     };
 
     const signinForm = () => (

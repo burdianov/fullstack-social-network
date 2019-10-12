@@ -1,4 +1,5 @@
 import React, {useState} from 'react';
+import {signup} from "../../auth";
 
 const Signup = () => {
     const [name, setName] = useState("");
@@ -44,21 +45,6 @@ const Signup = () => {
                     setOpen(true);
                 }
             });
-    };
-
-    const signup = user => {
-        return fetch("http://localhost:8080/signup", {
-            method: "POST",
-            headers: {
-                Accept: "application/json",
-                "Content-Type": "application/json"
-            },
-            body: JSON.stringify(user)
-        })
-            .then(response => {
-                return response.json();
-            })
-            .catch(err => console.log(err));
     };
 
     const signupForm = () => (
