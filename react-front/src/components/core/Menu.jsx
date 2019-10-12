@@ -15,13 +15,24 @@ export const signout = (next) => {
     }
     next();
     return fetch("http://localhost:8080/signout", {
-        method: "GET"
+        method: "POST"
     })
         .then(response => {
             console.log('signout', response);
             return response.json();
         })
         .catch(err => console.log(err));
+};
+
+export const isAuthenticated = () => {
+    if (typeof window === "undefined") {
+        return false;
+    }
+    if (localStorage.getItem("jwt")) {
+        return JSON.parse(localStorage.getItem("jwt"));
+    } else {
+        return false;
+    }
 };
 
 const Menu = ({history}) => {
@@ -32,23 +43,31 @@ const Menu = ({history}) => {
                     <Link className="nav-link" style={isActive(history, "/")}
                           to="/">Home</Link>
                 </li>
+                {!isAuthenticated() && (
+                    <>
+                        <li className="nav-item">
+                            <Link className="nav-link"
+                                  style={isActive(history, "/signin")}
+                                  to="/signin">Sign
+                                In</Link>
+                        </li>
+                        <li className="nav-item">
+                            <Link className="nav-link"
+                                  style={isActive(history, "/signup")}
+                                  to="/signup">Sign
+                                Up</Link>
+                        </li>
+                    </>
+                )}
+                {isAuthenticated() &&
                 <li className="nav-item">
-                    <Link className="nav-link"
-                          style={isActive(history, "/signin")} to="/signin">Sign
-                        In</Link>
-                </li>
-                <li className="nav-item">
-                    <Link className="nav-link"
-                          style={isActive(history, "/signup")} to="/signup">Sign
-                        Up</Link>
-                </li>
-                <li className="nav-item">
-                    <a className="nav-link"
-                       style={isActive(history, "/signout"), {cursor: "pointer", color:"#fff"}}
+                    <Link className="nav-link" to="/"
+                       style={/*isActive(history, "/signout"),*/
+                           {cursor: "pointer", color: "#fff"}}
                        onClick={() => signout(() => {
                            history.push('/');
-                       })}>Sign Out</a>
-                </li>
+                       })}>Sign Out</Link>
+                </li>}
             </ul>
         </div>
     );
