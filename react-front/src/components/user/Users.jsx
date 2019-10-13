@@ -12,20 +12,32 @@ const Users = () => {
         setUsers(data);
       }
     });
-  });
+  },[]);
 
-  return (
-    <div className="container">
-      <h2 className="mt-5 mb-5">Users</h2>
-      <div className="card">
-        {users.map((user, i)=> {
+  const renderUsers = () => {
+    return (
+      <div className="row">
+        {users.map((user, i) => {
           return (
-            <div key={i}>
-              <p>{user.name}</p>
+            <div key={i} className="card col-md-4">
+              <img className="card-img-top" src="" alt="Card image cap"/>
+              <div className="card-body">
+                <h5 className="card-title">{user.name}</h5>
+                <p className="card-text">{user.email}</p>
+                <a href="#" className="btn btn-primary btn-raised btn-sm">View
+                  Profile</a>
+              </div>
             </div>
           );
         })}
       </div>
+    )
+  };
+
+  return (
+    <div className="container">
+      <h2 className="mt-5 mb-5">Users</h2>
+      {renderUsers()}
     </div>
   );
 };
