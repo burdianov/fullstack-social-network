@@ -1,4 +1,5 @@
 import React, {useEffect, useState} from "react";
+import {Link} from 'react-router-dom';
 import {getAllUsers} from "../../api/user";
 import defaultAvatar from "../../assets/images/avatar.jpg";
 
@@ -30,8 +31,12 @@ const Users = () => {
               <div className="card-body">
                 <h5 className="card-title">{user.name}</h5>
                 <p className="card-text">{user.email}</p>
-                <a href="#" className="btn btn-primary btn-raised btn-sm">View
-                  Profile</a>
+                <Link
+                  to={`/user/${user._id}`}
+                  className="btn btn-primary btn-raised btn-sm"
+                >
+                  View Profile
+                </Link>
               </div>
             </div>
           );
