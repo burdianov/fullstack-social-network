@@ -3,6 +3,7 @@ import {isAuthenticated} from "../../auth";
 import {Link, Redirect} from "react-router-dom";
 import {getUserProfile} from "../../api/user";
 import defaultAvatar from "../../assets/images/avatar.jpg";
+import DeleteUser from "./DeleteUser";
 
 const Profile = (props) => {
   const [user, setUser] = useState("");
@@ -51,9 +52,7 @@ const Profile = (props) => {
                   className="btn btn-raised btn-success mr-5">
                   Edit Profile
                 </Link>
-                <button className="btn btn-raised btn-danger">
-                  Delete Profile
-                </button>
+                <DeleteUser/>
               </div>
             )}
           </div>
