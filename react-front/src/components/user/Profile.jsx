@@ -50,7 +50,7 @@ const Profile = (props) => {
                   className="btn btn-raised btn-success mr-5">
                   Edit Profile
                 </Link>
-                <DeleteUser/>
+                <DeleteUser userId={user._id}/>
               </div>
             )}
           </div>

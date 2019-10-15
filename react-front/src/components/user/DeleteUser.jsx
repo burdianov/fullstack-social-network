@@ -1,8 +1,25 @@
-import React from 'react';
+import React, {useState} from 'react';
+import {Redirect} from 'react-router-dom';
+import {isAuthenticated, signout} from "../../auth";
+import {deleteUser} from "../../api/user";
 
-const DeleteUser = () => {
+const DeleteUser = (props) => {
+  const [redirect, setRedirect] = useState(false);
+
   const deleteAccount = () => {
-    console.log("delete account");
+    const token = isAuthenticated().token;
+    const userId = props.userId;
+    deleteUser(userId, token)
+      .then(data => {
+        if (data.error) {
+          console.log(data.error);
+        } else {
+          signout(() => {
+            console.log("User deleted.")
+          });
+          setRedirect(true);
+        }
+      });
   };
 
   const deleteConfirmed = () => {
@@ -13,9 +30,11 @@ const DeleteUser = () => {
   };
 
   return (
-    <button onClick={deleteConfirmed} className="btn btn-raised btn-danger">
-      Delete Profile
-    </button>
+    (redirect) ?
+      <Redirect to="/"/> :
+      <button onClick={deleteConfirmed} className="btn btn-raised btn-danger">
+        Delete Profile
+      </button>
   )
 };
 
