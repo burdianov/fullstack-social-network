@@ -9,8 +9,6 @@ const Profile = (props) => {
   const [user, setUser] = useState("");
   const [redirectToSignin, setRedirectToSignin] = useState(false);
 
-  const {name, email} = isAuthenticated().user;
-
   useEffect(() => {
     const userId = props.match.params.userId;
     const token = isAuthenticated().token;
