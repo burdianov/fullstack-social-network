@@ -27,6 +27,23 @@ const EditProfile = (props) => {
       });
   }, [props.match.params.userId]);
 
+  const isValid = () => {
+    if (name.length === 0) {
+      setError("Name is required.");
+      return false;
+    }
+    const regEx = /^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
+    if (!regEx.test(email)) {
+      setError("Invalid email.");
+      return false;
+    }
+    if (password.length >= 1 && password.length <= 5) {
+      setError("Password must be at least 6 characters long");
+      return false;
+    }
+    return true;
+  };
+
   const handleChange = name => e => {
     const value = e.target.value;
     switch (name) {
@@ -46,22 +63,25 @@ const EditProfile = (props) => {
 
   const clickSubmit = (e) => {
     e.preventDefault();
-    const user = {
-      name,
-      email,
-      password: password || undefined
-    };
-    const userId = props.match.params.userId;
-    const token = isAuthenticated().token;
 
-    updateUserProfile(userId, token, user)
-      .then(data => {
-        if (data.error) {
-          setError(data.error);
-        } else {
-          setRedirectToProfile(true);
-        }
-      });
+    if (isValid()) {
+      const user = {
+        name,
+        email,
+        password: password || undefined
+      };
+      const userId = props.match.params.userId;
+      const token = isAuthenticated().token;
+
+      updateUserProfile(userId, token, user)
+        .then(data => {
+          if (data.error) {
+            setError(data.error);
+          } else {
+            setRedirectToProfile(true);
+          }
+        });
+    }
   };
 
   const signupForm = () => (
@@ -99,10 +119,15 @@ const EditProfile = (props) => {
   if (redirectToProfile) {
     return <Redirect to={`/user/${id}`}/>;
   }
+
   return (
     <div className="container">
       <h2 className="mt-5 mb-5">Edit Profile</h2>
 
+      <div className="alert alert-danger"
+           style={{display: error ? "" : "none"}}>
+        {error}
+      </div>
 
       {signupForm()}
     </div>
