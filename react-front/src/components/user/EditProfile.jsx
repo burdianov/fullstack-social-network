@@ -15,6 +15,8 @@ const EditProfile = (props) => {
     const userId = props.match.params.userId;
     const token = isAuthenticated().token;
 
+    EditProfile.formData = new FormData();
+
     getUserProfile(userId, token)
       .then(data => {
         if (data.error) {
@@ -45,7 +47,9 @@ const EditProfile = (props) => {
   };
 
   const handleChange = name => e => {
-    const value = e.target.value;
+    const value = name === "photo" ? e.target.files[0] : e.target.value;
+    EditProfile.formData.set(name, value);
+
     switch (name) {
       case "name":
         setName(value);
@@ -73,7 +77,7 @@ const EditProfile = (props) => {
       const userId = props.match.params.userId;
       const token = isAuthenticated().token;
 
-      updateUserProfile(userId, token, user)
+      updateUserProfile(userId, token, EditProfile.formData)
         .then(data => {
           if (data.error) {
             setError(data.error);
@@ -86,6 +90,15 @@ const EditProfile = (props) => {
 
   const signupForm = () => (
     <form>
+      <div className="form-group">
+        <label className="text-muted">Profile Photo</label>
+        <input
+          onChange={handleChange("photo")}
+          type="file"
+          accept="image/*"
+          className="form-control"
+        />
+      </div>
       <div className="form-group">
         <label className="text-muted">Name</label>
         <input
