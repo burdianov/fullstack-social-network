@@ -10,6 +10,7 @@ const EditProfile = (props) => {
   const [password, setPassword] = useState("");
   const [redirectToProfile, setRedirectToProfile] = useState(false);
   const [error, setError] = useState("");
+  const [loading, setLoading] = useState(false);
 
   useEffect(() => {
     const userId = props.match.params.userId;
@@ -67,13 +68,9 @@ const EditProfile = (props) => {
 
   const clickSubmit = (e) => {
     e.preventDefault();
+    setLoading(true);
 
     if (isValid()) {
-      const user = {
-        name,
-        email,
-        password: password || undefined
-      };
       const userId = props.match.params.userId;
       const token = isAuthenticated().token;
 
@@ -142,6 +139,10 @@ const EditProfile = (props) => {
         {error}
       </div>
 
+      {loading && <div className="jumbotron text-center">
+        <h2>Loading...</h2>
+      </div>}
+      
       {signupForm()}
     </div>
   );
