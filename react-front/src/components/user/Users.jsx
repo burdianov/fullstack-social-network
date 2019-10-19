@@ -20,13 +20,14 @@ const Users = () => {
     return (
       <div className="row">
         {users.map((user, i) => {
+
           return (
             <div key={i} className="card col-md-4">
-              <img
-                className="card-img-top"
-                src={defaultAvatar}
-                alt={user.name}
-                style={{width: "100%", height: "15vw", objectFit: "cover"}}
+              <img style={{height: "200px", width: "auto"}}
+                   className="img-thumbnail"
+                   src={`${process.env.REACT_APP_API_URL}/user/photo/${user._id}`}
+                   onError={image => image.target.src = `${defaultAvatar}`}
+                   alt={user.name}
               />
               <div className="card-body">
                 <h5 className="card-title">{user.name}</h5>

@@ -142,7 +142,7 @@ const EditProfile = (props) => {
     return <Redirect to={`/user/${id}`}/>;
   }
 
-  const photoUrl = id ? `${process.env.REACT_APP_API_URL}/user/photo/${id}` : defaultAvatar;
+  const photoUrl = id ? `${process.env.REACT_APP_API_URL}/user/photo/${id}?${new Date().getTime()}` : defaultAvatar;
 
   return (
     <div className="container">
@@ -157,7 +157,12 @@ const EditProfile = (props) => {
         <h2>Loading...</h2>
       </div>}
 
-      <img src={photoUrl} alt={name}/>
+      <img
+        style={{height: "200px", width: "auto"}}
+        className="img-thumbnail"
+        src={photoUrl}
+        onError={image => image.target.src = `${defaultAvatar}`}
+        alt={name}/>
 
       {signupForm()}
     </div>

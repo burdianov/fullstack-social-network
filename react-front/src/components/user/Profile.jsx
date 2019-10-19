@@ -2,8 +2,8 @@ import React, {useEffect, useState} from 'react';
 import {isAuthenticated} from "../../auth";
 import {Link, Redirect} from "react-router-dom";
 import {getUserProfile} from "../../api/user";
-import defaultAvatar from "../../assets/images/avatar.jpg";
 import DeleteUser from "./DeleteUser";
+import defaultAvatar from "../../assets/images/avatar.jpg";
 
 const Profile = (props) => {
   const [user, setUser] = useState("");
@@ -22,6 +22,8 @@ const Profile = (props) => {
       });
   }, [props.match.params.userId]);
 
+  const photoUrl = user._id ? `${process.env.REACT_APP_API_URL}/user/photo/${user._id}?${new Date().getTime()}` : defaultAvatar;
+
   if (redirectToSignin) {
     return <Redirect to="/signin"/>
   } else {
@@ -30,11 +32,11 @@ const Profile = (props) => {
         <h2 className="mt-5 mb-5">Profile</h2>
         <div className="row">
           <div className="col-md-6">
-            <img
-              className="card-img-top"
-              src={defaultAvatar}
-              alt={user.name}
-              style={{width: "100%", height: "15vw", objectFit: "cover"}}
+            <img style={{height: "200px", width: "auto"}}
+                 className="img-thumbnail"
+                 src={photoUrl}
+                 onError={image => image.target.src = `${defaultAvatar}`}
+                 alt={user.name}
             />
           </div>
           <div className="col-md-6 mt-2">
