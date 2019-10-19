@@ -11,6 +11,7 @@ const EditProfile = (props) => {
   const [redirectToProfile, setRedirectToProfile] = useState(false);
   const [error, setError] = useState("");
   const [loading, setLoading] = useState(false);
+  const [fileSize, setFileSize] = useState(0);
 
   useEffect(() => {
     const userId = props.match.params.userId;
@@ -31,6 +32,11 @@ const EditProfile = (props) => {
   }, [props.match.params.userId]);
 
   const isValid = () => {
+    //check if fileSize > 1Mb
+    if (fileSize > 100000) {
+      setError("File size should be less than 1Mb.");
+      return false;
+    }
     if (name.length === 0) {
       setError("Name is required.");
       return false;
@@ -48,7 +54,12 @@ const EditProfile = (props) => {
   };
 
   const handleChange = name => e => {
+    setError("");
+
     const value = name === "photo" ? e.target.files[0] : e.target.value;
+    const fileSize = name === "photo" ? e.target.files[0].size : 0;
+    setFileSize(fileSize);
+
     EditProfile.formData.set(name, value);
 
     switch (name) {
