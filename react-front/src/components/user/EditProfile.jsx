@@ -2,6 +2,7 @@ import React, {useEffect, useState} from 'react';
 import {isAuthenticated} from "../../auth";
 import {getUserProfile, updateUserProfile} from "../../api/user";
 import {Redirect} from "react-router-dom";
+import defaultAvatar from "../../assets/images/avatar.jpg";
 
 const EditProfile = (props) => {
   const [id, setId] = useState("");
@@ -141,6 +142,8 @@ const EditProfile = (props) => {
     return <Redirect to={`/user/${id}`}/>;
   }
 
+  const photoUrl = id ? `${process.env.REACT_APP_API_URL}/user/photo/${id}` : defaultAvatar;
+
   return (
     <div className="container">
       <h2 className="mt-5 mb-5">Edit Profile</h2>
@@ -153,6 +156,8 @@ const EditProfile = (props) => {
       {loading && <div className="jumbotron text-center">
         <h2>Loading...</h2>
       </div>}
+
+      <img src={photoUrl} alt={name}/>
 
       {signupForm()}
     </div>
