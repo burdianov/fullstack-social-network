@@ -9,6 +9,7 @@ const EditProfile = (props) => {
   const [name, setName] = useState("");
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
+  const [about, setAbout] = useState("");
   const [redirectToProfile, setRedirectToProfile] = useState(false);
   const [error, setError] = useState("");
   const [loading, setLoading] = useState(false);
@@ -28,6 +29,7 @@ const EditProfile = (props) => {
           setId(data._id);
           setName(data.name);
           setEmail(data.email);
+          setAbout(data.about);
         }
       });
   }, [props.match.params.userId]);
@@ -72,6 +74,9 @@ const EditProfile = (props) => {
         break;
       case "password":
         setPassword(value);
+        break;
+      case "about":
+        setAbout(value);
         break;
       default:
         break;
@@ -123,6 +128,14 @@ const EditProfile = (props) => {
           type="email"
           className="form-control"
           value={email}/>
+      </div>
+      <div className="form-group">
+        <label className="text-muted">About</label>
+        <textarea
+          onChange={handleChange("about")}
+          type="text"
+          className="form-control"
+          value={about}/>
       </div>
       <div className="form-group">
         <label className="text-muted">Password</label>
