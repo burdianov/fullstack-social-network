@@ -1,6 +1,6 @@
 import React, {useEffect, useState} from 'react';
 import {isAuthenticated} from "../../auth";
-import {getUserProfile, updateUserProfile} from "../../api/user";
+import {getUserProfile, updateUser, updateUserProfile} from "../../api/user";
 import {Redirect} from "react-router-dom";
 import defaultAvatar from "../../assets/images/avatar.jpg";
 
@@ -38,19 +38,23 @@ const EditProfile = (props) => {
     //check if fileSize > 1Mb
     if (fileSize > 100000) {
       setError("File size should be less than 1Mb.");
+      setLoading(false);
       return false;
     }
     if (name.length === 0) {
       setError("Name is required.");
+      setLoading(false);
       return false;
     }
     const regEx = /^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
     if (!regEx.test(email)) {
       setError("Invalid email.");
+      setLoading(false);
       return false;
     }
     if (password.length >= 1 && password.length <= 5) {
       setError("Password must be at least 6 characters long");
+      setLoading(false);
       return false;
     }
     return true;
@@ -96,7 +100,9 @@ const EditProfile = (props) => {
           if (data.error) {
             setError(data.error);
           } else {
-            setRedirectToProfile(true);
+            updateUser(data, () => {
+              setRedirectToProfile(true);
+            });
           }
         });
     }
