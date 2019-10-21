@@ -5,7 +5,9 @@ const {
   getUser,
   updateUser,
   deleteUser,
-  userPhoto
+  userPhoto,
+  addFollowing,
+  addFollower
 } = require("../controllers/user");
 const {requireSignIn} = require("../controllers/auth");
 
@@ -16,6 +18,7 @@ router.get("/user/:userId", requireSignIn, getUser);
 router.put("/user/:userId", requireSignIn, updateUser);
 router.delete("/user/:userId", requireSignIn, deleteUser);
 router.get("/user/photo/:userId", userPhoto);
+router.put("/user/follow", requireSignIn, addFollowing, addFollower);
 
 // for any route containing :userId, the app will first execute userById()
 router.param("userId", userById);
