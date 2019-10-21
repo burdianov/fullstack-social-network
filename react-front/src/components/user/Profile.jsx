@@ -7,8 +7,11 @@ import defaultAvatar from "../../assets/images/avatar.jpg";
 import FollowProfileButton from "./FollowProfileButton";
 
 const Profile = (props) => {
-  const [user, setUser] = useState("");
+  const [user, setUser] = useState({
+    following: [], followers: []
+  });
   const [redirectToSignin, setRedirectToSignin] = useState(false);
+  const [following, setFollowing] = useState(false);
 
   useEffect(() => {
     const userId = props.match.params.userId;
@@ -18,10 +21,20 @@ const Profile = (props) => {
         if (data.error) {
           setRedirectToSignin(true);
         } else {
+          let following = checkFollow(data);
           setUser(data);
+          setFollowing(following);
         }
       });
   }, [props.match.params.userId]);
+
+  const checkFollow = (user) => {
+    const jwt = isAuthenticated();
+    const match = user.followers.find(follower => {
+      return follower._id === jwt.user._id;
+    });
+    return match;
+  };
 
   const photoUrl = user._id ? `${process.env.REACT_APP_API_URL}/user/photo/${user._id}?${new Date().getTime()}` : defaultAvatar;
 
@@ -55,7 +68,9 @@ const Profile = (props) => {
                 </Link>
                 <DeleteUser userId={user._id}/>
               </div>
-            ) : (<FollowProfileButton/>)}
+            ) : (
+              <FollowProfileButton following={following}/>
+            )}
           </div>
         </div>
         <div className="row">
