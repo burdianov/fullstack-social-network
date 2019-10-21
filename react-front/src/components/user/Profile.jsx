@@ -4,6 +4,7 @@ import {Link, Redirect} from "react-router-dom";
 import {getUserProfile} from "../../api/user";
 import DeleteUser from "./DeleteUser";
 import defaultAvatar from "../../assets/images/avatar.jpg";
+import FollowProfileButton from "./FollowProfileButton";
 
 const Profile = (props) => {
   const [user, setUser] = useState("");
@@ -45,7 +46,7 @@ const Profile = (props) => {
               <p>Email: {user.email}</p>
               <p>{`Joined ${new Date(user.createdAt).toDateString()}`}</p>
             </div>
-            {isAuthenticated().user && isAuthenticated().user._id === user._id && (
+            {isAuthenticated().user && isAuthenticated().user._id === user._id ? (
               <div className="d-inline-block">
                 <Link
                   to={`/user/edit/${user._id}`}
@@ -54,7 +55,7 @@ const Profile = (props) => {
                 </Link>
                 <DeleteUser userId={user._id}/>
               </div>
-            )}
+            ) : (<FollowProfileButton/>)}
           </div>
         </div>
         <div className="row">
