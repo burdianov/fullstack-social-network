@@ -12,6 +12,7 @@ const Profile = (props) => {
   });
   const [redirectToSignin, setRedirectToSignin] = useState(false);
   const [following, setFollowing] = useState(false);
+  const [error, setError] = useState("");
 
   useEffect(() => {
     const userId = props.match.params.userId;
@@ -34,6 +35,21 @@ const Profile = (props) => {
       return follower._id === jwt.user._id;
     });
     return match;
+  };
+
+  const clickFollowButton = callApi => {
+    const userId = isAuthenticated().user._id;
+    const token = isAuthenticated().token;
+
+    callApi(userId, token, user._id)
+      .then(data => {
+        if (data.error) {
+          setError(data.error);
+        } else {
+          setUser(data);
+          setFollowing(!following);
+        }
+      });
   };
 
   const photoUrl = user._id ? `${process.env.REACT_APP_API_URL}/user/photo/${user._id}?${new Date().getTime()}` : defaultAvatar;
@@ -69,7 +85,10 @@ const Profile = (props) => {
                 <DeleteUser userId={user._id}/>
               </div>
             ) : (
-              <FollowProfileButton following={following}/>
+              <FollowProfileButton
+                following={following}
+                onButtonClick={clickFollowButton}
+              />
             )}
           </div>
         </div>
