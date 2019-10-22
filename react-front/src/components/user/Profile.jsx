@@ -5,6 +5,7 @@ import {getUserProfile} from "../../api/user";
 import DeleteUser from "./DeleteUser";
 import defaultAvatar from "../../assets/images/avatar.jpg";
 import FollowProfileButton from "./FollowProfileButton";
+import ProfileTabs from "./ProfileTabs";
 
 const Profile = (props) => {
   const [user, setUser] = useState({
@@ -90,6 +91,11 @@ const Profile = (props) => {
                 onButtonClick={clickFollowButton}
               />
             )}
+            <hr/>
+            <ProfileTabs
+              followers={user.followers}
+              following={user.following}
+            />
           </div>
         </div>
         <div className="row">
