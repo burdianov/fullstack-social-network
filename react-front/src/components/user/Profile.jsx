@@ -91,11 +91,6 @@ const Profile = (props) => {
                 onButtonClick={clickFollowButton}
               />
             )}
-            <hr/>
-            <ProfileTabs
-              followers={user.followers}
-              following={user.following}
-            />
           </div>
         </div>
         <div className="row">
@@ -103,6 +98,10 @@ const Profile = (props) => {
             <hr/>
             <p className="lead">{user.about}</p>
             <hr/>
+            <ProfileTabs
+              followers={user.followers}
+              following={user.following}
+            />
           </div>
         </div>
       </div>
