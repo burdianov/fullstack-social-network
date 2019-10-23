@@ -56,7 +56,7 @@ const ProfileTabs = (props) => {
             )
           )}
         </div>
-        <div className="com-md-4">
+        <div className="col-md-4">
           <h3 className="text-primary">Posts</h3>
           <hr/>
         </div>
