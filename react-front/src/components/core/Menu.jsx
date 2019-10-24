@@ -18,10 +18,10 @@ const Menu = ({history}) => {
           <Link className="nav-link" style={isActive(history, "/")}
                 to="/">Home</Link>
         </li>
-          <li className="nav-item">
-              <Link className="nav-link" style={isActive(history, "/users")}
-                    to="/users">Users</Link>
-          </li>
+        <li className="nav-item">
+          <Link className="nav-link" style={isActive(history, "/users")}
+                to="/users">Users</Link>
+        </li>
         {!isAuthenticated() && (
           <>
             <li className="nav-item">
@@ -47,6 +47,15 @@ const Menu = ({history}) => {
                       history.push('/');
                     })}>
                 Sign Out
+              </Link>
+            </li>
+            <li className="nav-item">
+              <Link
+                className="nav-link"
+                style={
+                  isActive(history, `/findpeople`)}
+                to={`/findpeople`}>
+                Find People
               </Link>
             </li>
             <li className="nav-item">
