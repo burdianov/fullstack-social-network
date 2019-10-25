@@ -22,7 +22,8 @@ exports.getPosts = async (req, res) => {
     try {
         const posts = await Post.find()
             .populate("postedBy", "_id name")
-            .select("_id title body");
+            .select("_id title body createdAt")
+          .sort({createdAt: -1});
         await res.json(posts);
     } catch (err) {
         console.error(err);
