@@ -39,7 +39,7 @@ const Posts = () => {
                   {" "} on {new Date(post.createdAt).toDateString()}
                 </p>
                 <Link
-                  to={`/posts/${post._id}`}
+                  to={`/post/${post._id}`}
                   className="btn btn-primary btn-raised btn-sm"
                 >
                   Read more...
