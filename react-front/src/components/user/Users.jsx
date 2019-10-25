@@ -20,7 +20,6 @@ const Users = () => {
     return (
       <div className="row">
         {users.map((user, i) => {
-
           return (
             <div key={i} className="card col-md-4">
               <img style={{height: "200px", width: "auto"}}

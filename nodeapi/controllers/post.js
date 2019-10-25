@@ -23,7 +23,7 @@ exports.getPosts = async (req, res) => {
         const posts = await Post.find()
             .populate("postedBy", "_id name")
             .select("_id title body");
-        await res.json({posts});
+        await res.json(posts);
     } catch (err) {
         console.error(err);
     }
