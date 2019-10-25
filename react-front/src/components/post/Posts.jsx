@@ -1,6 +1,6 @@
 import React, {useEffect, useState} from "react";
 import {getAllPosts} from "../../api/post";
-// import defaultAvatar from "../../assets/images/avatar.jpg";
+import defaultPostPhoto from "../../assets/images/mountains.jpg"
 import {Link} from "react-router-dom";
 
 const Posts = () => {
@@ -25,6 +25,12 @@ const Posts = () => {
           return (
             <div key={i} className="card col-md-4">
               <div className="card-body">
+                <img
+                  src={`${process.env.REACT_APP_API_URL}/post/photo/${post._id}`}
+                  alt={post.title}
+                  onError={image => image.target.src = `${defaultPostPhoto}`}
+                  className="img-thumbnail mb-3"
+                  style={{height: "200px", width: "auto"}}/>
                 <h5 className="card-title">{post.title}</h5>
                 <p className="card-text">{post.body.substring(0, 100)}</p>
                 <br/>
