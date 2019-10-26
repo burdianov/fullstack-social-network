@@ -2,6 +2,7 @@ import React, {useEffect, useState} from "react";
 import {getSinglePost} from "../../api/post";
 import defaultPostPhoto from "../../assets/images/mountains.jpg";
 import {Link} from "react-router-dom";
+import {isAuthenticated} from "../../auth";
 
 const SinglePost = (props) => {
   const [post, setPost] = useState("");
@@ -34,12 +35,24 @@ const SinglePost = (props) => {
           Posted by <Link to={`${posterId}`}>{posterName}</Link>
           {" "} on {new Date(post.createdAt).toDateString()}
         </p>
-        <Link
-          to={"/"}
-          className="btn btn-primary btn-raised btn-sm"
-        >
-          Back to posts
-        </Link>
+        <div className="d-inline-block">
+          <Link
+            to={"/"}
+            className="btn btn-primary btn-raised btn-sm mr-5"
+          >
+            Back to posts
+          </Link>
+          {isAuthenticated().user && isAuthenticated().user._id === post.postedBy._id && (
+            <>
+              <button className="btn btn-raised btn-info mr-5">
+                Update Post
+              </button>
+              <button className="btn btn-raised btn-danger">
+                Delete Post
+              </button>
+            </>
+          )}
+        </div>
       </div>
     );
   };
