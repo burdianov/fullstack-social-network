@@ -7,7 +7,6 @@ import {createPost} from "../../api/post";
 const NewPost = (props) => {
   const [title, setTitle] = useState("");
   const [body, setBody] = useState("");
-  const [photo, setPhoto] = useState("");
   const [error, setError] = useState("");
   const [user, setUser] = useState({});
   const [loading, setLoading] = useState(false);
@@ -75,7 +74,6 @@ const NewPost = (props) => {
             setLoading(false);
             setTitle("");
             setBody("");
-            setPhoto("");
             setRedirectToProfile(true);
           }
         });
