@@ -1,7 +1,7 @@
 import React, {useState} from 'react';
 import {Redirect} from 'react-router-dom';
 import {isAuthenticated, signout} from "../../auth";
-import {deleteUser} from "../../api/user";
+import {removeUser} from "../../api/user";
 
 const DeleteUser = (props) => {
   const [redirect, setRedirect] = useState(false);
@@ -9,7 +9,7 @@ const DeleteUser = (props) => {
   const deleteAccount = () => {
     const token = isAuthenticated().token;
     const userId = props.userId;
-    deleteUser(userId, token)
+    removeUser(userId, token)
       .then(data => {
         if (data.error) {
           console.log(data.error);

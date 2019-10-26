@@ -30,7 +30,7 @@ const Posts = () => {
                   alt={post.title}
                   onError={image => image.target.src = `${defaultPostPhoto}`}
                   className="img-thumbnail mb-3"
-                  style={{height: "200px", width: "auto"}}/>
+                  style={{height: "200px", width: "100%"}}/>
                 <h5 className="card-title">{post.title}</h5>
                 <p className="card-text">{post.body.substring(0, 100)}</p>
                 <br/>

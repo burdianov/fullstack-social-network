@@ -1,11 +1,12 @@
 import React, {useEffect, useState} from "react";
-import {getSinglePost} from "../../api/post";
+import {getSinglePost, removePost} from "../../api/post";
 import defaultPostPhoto from "../../assets/images/mountains.jpg";
-import {Link} from "react-router-dom";
+import {Link, Redirect} from "react-router-dom";
 import {isAuthenticated} from "../../auth";
 
 const SinglePost = (props) => {
   const [post, setPost] = useState("");
+  const [redirectToHome, setRedirectToHome] = useState(false);
 
   useEffect(() => {
     getSinglePost(props.match.params.postId)
@@ -17,6 +18,18 @@ const SinglePost = (props) => {
         }
       });
   }, [props.match.params.postId]);
+
+  const deletePost = () => {
+    const postId = props.match.params.postId;
+    const token = isAuthenticated().token;
+    removePost(postId, token).then(data => {
+      if (data.error) {
+        console.log(data.error);
+      } else {
+        setRedirectToHome(true);
+      }
+    });
+  };
 
   const renderPost = () => {
     const posterId = post.postedBy ? `/user/${post.postedBy._id}` : "";
@@ -47,7 +60,8 @@ const SinglePost = (props) => {
               <button className="btn btn-raised btn-info mr-5">
                 Update Post
               </button>
-              <button className="btn btn-raised btn-danger">
+              <button onClick={deletePost}
+                      className="btn btn-raised btn-danger">
                 Delete Post
               </button>
             </>
@@ -56,6 +70,12 @@ const SinglePost = (props) => {
       </div>
     );
   };
+
+  {
+    if (redirectToHome) {
+      return <Redirect to="/"/>
+    }
+  }
 
   return (
     <div className="container">

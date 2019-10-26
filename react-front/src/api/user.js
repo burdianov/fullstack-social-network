@@ -14,7 +14,6 @@ export const getUserProfile = (userId, token) => {
       console.log(err);
     });
 };
-
 export const updateUserProfile = (userId, token, user) => {
   return fetch(`${process.env.REACT_APP_API_URL}/user/${userId}`, {
     method: "PUT",
@@ -31,8 +30,7 @@ export const updateUserProfile = (userId, token, user) => {
       console.log(err);
     });
 };
-
-export const deleteUser = (userId, token) => {
+export const removeUser = (userId, token) => {
   return fetch(`${process.env.REACT_APP_API_URL}/user/${userId}`, {
     method: "DELETE",
     headers: {
@@ -48,7 +46,6 @@ export const deleteUser = (userId, token) => {
       console.log(err);
     });
 };
-
 export const getAllUsers = () => {
   return fetch(`${process.env.REACT_APP_API_URL}/users`, {
     method: "GET"
@@ -60,7 +57,6 @@ export const getAllUsers = () => {
       console.log(err);
     });
 };
-
 export const updateUser = (user, next) => {
   if (typeof window !== "undefined") {
     if (localStorage.getItem('jwt')) {
@@ -71,7 +67,6 @@ export const updateUser = (user, next) => {
     }
   }
 };
-
 export const follow = (userId, token, followId) => {
   return fetch(`${process.env.REACT_APP_API_URL}/user/follow`, {
     method: "PUT",
@@ -89,7 +84,6 @@ export const follow = (userId, token, followId) => {
       console.log(err);
     });
 };
-
 export const unfollow = (userId, token, unfollowId) => {
   return fetch(`${process.env.REACT_APP_API_URL}/user/unfollow`, {
     method: "PUT",
@@ -107,7 +101,6 @@ export const unfollow = (userId, token, unfollowId) => {
       console.log(err);
     });
 };
-
 export const findPeople = (userId, token) => {
   return fetch(`${process.env.REACT_APP_API_URL}/user/findpeople/${userId}`, {
     method: "GET",
