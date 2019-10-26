@@ -64,10 +64,13 @@ const SinglePost = (props) => {
           </Link>
           {isAuthenticated().user && isAuthenticated().user._id === post.postedBy._id && (
             <>
-              <button className="btn btn-raised btn-info mr-5">
+              <Link
+                to={`/post/edit/${post._id}`}
+                className="btn btn-info btn-raised btn-sm mr-5"
+              >
                 Update Post
-              </button>
-              <button onClick={deleteConfirmed  }
+              </Link>
+              <button onClick={deleteConfirmed}
                       className="btn btn-raised btn-danger">
                 Delete Post
               </button>
