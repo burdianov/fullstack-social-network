@@ -54,7 +54,8 @@ const Posts = () => {
 
   return (
     <div className="container">
-      <h2 className="mt-5 mb-5">Recent Posts</h2>
+      <h2
+        className="mt-5 mb-5">{!posts.length ? "Loading..." : "Recent posts"}</h2>
       {renderPosts()}
     </div>
   );
