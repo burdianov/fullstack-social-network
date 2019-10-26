@@ -31,6 +31,13 @@ const SinglePost = (props) => {
     });
   };
 
+  const deleteConfirmed = () => {
+    let answer = window.confirm("Are you sure you want to delete the post?");
+    if (answer) {
+      deletePost();
+    }
+  };
+
   const renderPost = () => {
     const posterId = post.postedBy ? `/user/${post.postedBy._id}` : "";
     const posterName = post.postedBy ? post.postedBy.name : " Unknown";
@@ -60,7 +67,7 @@ const SinglePost = (props) => {
               <button className="btn btn-raised btn-info mr-5">
                 Update Post
               </button>
-              <button onClick={deletePost}
+              <button onClick={deleteConfirmed  }
                       className="btn btn-raised btn-danger">
                 Delete Post
               </button>
