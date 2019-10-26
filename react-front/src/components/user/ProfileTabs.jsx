@@ -3,7 +3,7 @@ import {Link} from "react-router-dom";
 import defaultAvatar from "../../assets/images/avatar.jpg";
 
 const ProfileTabs = (props) => {
-  const {following, followers} = props;
+  const {following, followers, posts} = props;
 
   return (
     <div>
@@ -59,6 +59,7 @@ const ProfileTabs = (props) => {
         <div className="col-md-4">
           <h3 className="text-primary">Posts</h3>
           <hr/>
+          {JSON.stringify(posts)}
         </div>
       </div>
     </div>

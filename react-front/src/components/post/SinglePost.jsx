@@ -15,7 +15,7 @@ const SinglePost = (props) => {
           setPost(data);
         }
       });
-  }, []);
+  }, [props.match.params.postId]);
 
   const renderPost = () => {
     const posterId = post.postedBy ? `/user/${post.postedBy._id}` : "";

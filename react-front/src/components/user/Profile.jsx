@@ -6,6 +6,7 @@ import DeleteUser from "./DeleteUser";
 import defaultAvatar from "../../assets/images/avatar.jpg";
 import FollowProfileButton from "./FollowProfileButton";
 import ProfileTabs from "./ProfileTabs";
+import {getPostsByUser} from "../../api/post";
 
 const Profile = (props) => {
   const [user, setUser] = useState({
@@ -14,6 +15,7 @@ const Profile = (props) => {
   const [redirectToSignin, setRedirectToSignin] = useState(false);
   const [following, setFollowing] = useState(false);
   const [error, setError] = useState("");
+  const [posts, setPosts] = useState([]);
 
   useEffect(() => {
     const userId = props.match.params.userId;
@@ -26,9 +28,21 @@ const Profile = (props) => {
           let following = checkFollow(data);
           setUser(data);
           setFollowing(following);
+          loadPosts(data._id);
         }
       });
   }, [props.match.params.userId]);
+
+  const loadPosts = userId => {
+    const token = isAuthenticated().token;
+    getPostsByUser(userId, token).then(data => {
+      if (data.error) {
+        console.log(data.error);
+      } else {
+        setPosts(data);
+      }
+    });
+  };
 
   const checkFollow = (user) => {
     const jwt = isAuthenticated();
@@ -101,6 +115,7 @@ const Profile = (props) => {
             <ProfileTabs
               followers={user.followers}
               following={user.following}
+              posts={posts}
             />
           </div>
         </div>
