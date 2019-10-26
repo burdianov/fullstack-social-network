@@ -76,7 +76,7 @@ const Profile = (props) => {
       <div className="container">
         <h2 className="mt-5 mb-5">Profile</h2>
         <div className="row">
-          <div className="col-md-6">
+          <div className="col-md-4">
             <img style={{height: "200px", width: "auto"}}
                  className="img-thumbnail"
                  src={photoUrl}
@@ -84,7 +84,7 @@ const Profile = (props) => {
                  alt={user.name}
             />
           </div>
-          <div className="col-md-6 mt-2">
+          <div className="col-md-8 mt-2">
             <div className="lead">
               <p>Hello {user.name}</p>
               <p>Email: {user.email}</p>
@@ -93,8 +93,13 @@ const Profile = (props) => {
             {isAuthenticated().user && isAuthenticated().user._id === user._id ? (
               <div className="d-inline-block">
                 <Link
-                  to={`/user/edit/${user._id}`}
+                  to={`/post/create`}
                   className="btn btn-raised btn-success mr-5">
+                  Create Post
+                </Link>
+                <Link
+                  to={`/user/edit/${user._id}`}
+                  className="btn btn-raised btn-info mr-5">
                   Edit Profile
                 </Link>
                 <DeleteUser userId={user._id}/>
