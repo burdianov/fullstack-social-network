@@ -1,7 +1,6 @@
 import React, {useEffect, useState} from 'react';
 import {isAuthenticated} from "../../auth";
 import {Redirect} from "react-router-dom";
-import defaultAvatar from "../../assets/images/avatar.jpg";
 import {createPost} from "../../api/post";
 
 const NewPost = (props) => {
@@ -11,7 +10,6 @@ const NewPost = (props) => {
   const [user, setUser] = useState({});
   const [loading, setLoading] = useState(false);
   const [fileSize, setFileSize] = useState(0);
-  const [name, setName] = useState("");
   const [redirectToProfile, setRedirectToProfile] = useState(false);
 
   useEffect(() => {
@@ -20,7 +18,6 @@ const NewPost = (props) => {
 
     NewPost.postData = new FormData();
     setUser(isAuthenticated().user);
-
   }, [props.match.params.userId]);
 
   const isValid = () => {
