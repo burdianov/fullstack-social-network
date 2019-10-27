@@ -37,7 +37,7 @@ const EditProfile = (props) => {
   const isValid = () => {
     //check if fileSize > 1Mb
     if (fileSize > 100000) {
-      setError("File size should be less than 1Mb.");
+      setError("File size should be less than 100KB.");
       setLoading(false);
       return false;
     }

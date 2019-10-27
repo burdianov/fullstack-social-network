@@ -1,7 +1,8 @@
 import React, {useEffect, useState} from "react";
 import {Redirect} from "react-router-dom";
-import { getSinglePost, updatePost} from "../../api/post";
+import {getSinglePost, updatePost} from "../../api/post";
 import {isAuthenticated} from "../../auth";
+import defaultPostImage from "../../assets/images/mountains.jpg";
 
 const EditPost = (props) => {
   const [id, setId] = useState("");
@@ -33,7 +34,7 @@ const EditPost = (props) => {
   const isValid = () => {
     //check if fileSize > 1Mb
     if (fileSize > 100000) {
-      setError("File size should be less than 1Mb.");
+      setError("File size should be less than 100KB.");
       return false;
     }
     if (title.length === 0 || body.length === 0) {
@@ -126,6 +127,23 @@ const EditPost = (props) => {
   return (
     <div className="container">
       <h2 className="mt-5 mb-5">{title}</h2>
+
+      <div className="alert alert-danger"
+           style={{display: error ? "" : "none"}}>
+        {error}
+      </div>
+
+      {loading && <div className="jumbotron text-center">
+        <h2>Loading...</h2>
+      </div>}
+
+      <img
+        style={{height: "200px", width: "auto"}}
+        className="img-thumbnail"
+        src={`${process.env.REACT_APP_API_URL}/post/photo/${id}?${new Date().getTime()}`}
+        onError={image => image.target.src = `${defaultPostImage}`}
+        alt={title}/>
+
       {editPostForm()}
     </div>
   )
