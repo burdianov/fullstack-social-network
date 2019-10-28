@@ -22,7 +22,7 @@ exports.getPosts = async (req, res) => {
   try {
     const posts = await Post.find()
       .populate("postedBy", "_id name")
-      .select("_id title body createdAt")
+      .select("_id title body createdAt likes")
       .sort({createdAt: -1});
     await res.json(posts);
   } catch (err) {
@@ -73,6 +73,7 @@ exports.createPost = (req, res, next) => {
 exports.getPostsByUser = (req, res) => {
   Post.find({postedBy: req.profile._id})
     .populate("postedBy", "_id name")
+    .select("_id title body createdAt likes")
     .sort("createdAt")
     .exec((err, posts) => {
       if (err) {
@@ -151,10 +152,38 @@ exports.deletePost = (req, res) => {
 };
 
 exports.getPostPhoto = (req, res, next) => {
-    res.set("Content-Type", req.post.photo.contentType);
-    return res.send(req.post.photo.data);
+  res.set("Content-Type", req.post.photo.contentType);
+  return res.send(req.post.photo.data);
 };
 
 exports.getPost = (req, res) => {
   return res.json(req.post);
+};
+
+exports.like = (req, res) => {
+  Post.findByIdAndUpdate(
+    req.body.postId, {$push: {likes: req.body.userId}}, {new: true})
+    .exec((err, result) => {
+      if (err) {
+        return res.status(400).json({
+          error: err
+        })
+      } else {
+        res.json(result);
+      }
+    })
+};
+
+exports.unlike = (req, res) => {
+  Post.findByIdAndUpdate(
+    req.body.postId, {$pull: {likes: req.body.userId}}, {new: true})
+    .exec((err, result) => {
+      if (err) {
+        return res.status(400).json({
+          error: err
+        })
+      } else {
+        res.json(result);
+      }
+    })
 };

@@ -8,7 +8,9 @@ const {
   updatePost,
   deletePost,
   getPostPhoto,
-  getPost
+  getPost,
+  like,
+  unlike
 } = require("../controllers/post");
 const {requireSignIn} = require("../controllers/auth");
 const {userById} = require("../controllers/user");
@@ -17,6 +19,8 @@ const {createPostValidator} = require("../validators");
 const router = express.Router();
 
 router.get("/posts", getPosts);
+router.put("/post/like", requireSignIn, like);
+router.put("/post/unlike", requireSignIn, unlike);
 router.post("/post/new/:userId",
   requireSignIn,
   createPost,
