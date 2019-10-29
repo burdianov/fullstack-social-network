@@ -7,6 +7,7 @@ import {isAuthenticated} from "../../auth";
 const SinglePost = (props) => {
   const [post, setPost] = useState("");
   const [redirectToHome, setRedirectToHome] = useState(false);
+  const [redirectToSignin, setRedirectToSignin] = useState(false);
   const [like, setLike] = useState(false);
   const [likes, setLikes] = useState(0);
 
@@ -24,9 +25,8 @@ const SinglePost = (props) => {
   }, [props.match.params.postId]);
 
   const checkLike = (likes) => {
-    const userId = isAuthenticated().user._id;
-    let match = likes.indexOf(userId) !== -1;
-    return match;
+    const userId = isAuthenticated() && isAuthenticated().user._id;
+    return likes.indexOf(userId) !== -1;
   };
 
   const deletePost = () => {
@@ -49,6 +49,10 @@ const SinglePost = (props) => {
   };
 
   const toggleLike = () => {
+    if (!isAuthenticated()) {
+      setRedirectToSignin(true);
+      return false;
+    }
     let callApi = like ? unlikePost : likePost;
     const userId = isAuthenticated().user._id;
     const postId = post._id;
@@ -117,6 +121,8 @@ const SinglePost = (props) => {
   {
     if (redirectToHome) {
       return <Redirect to="/"/>
+    } else if (redirectToSignin) {
+      return <Redirect to={"/signin"}/>
     }
   }
 
