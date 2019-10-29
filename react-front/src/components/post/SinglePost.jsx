@@ -1,5 +1,5 @@
 import React, {useEffect, useState} from "react";
-import {getSinglePost, removePost} from "../../api/post";
+import {getSinglePost, likePost, removePost, unlikePost} from "../../api/post";
 import defaultPostPhoto from "../../assets/images/mountains.jpg";
 import {Link, Redirect} from "react-router-dom";
 import {isAuthenticated} from "../../auth";
@@ -7,6 +7,8 @@ import {isAuthenticated} from "../../auth";
 const SinglePost = (props) => {
   const [post, setPost] = useState("");
   const [redirectToHome, setRedirectToHome] = useState(false);
+  const [like, setLike] = useState(false);
+  const [likes, setLikes] = useState(0);
 
   useEffect(() => {
     getSinglePost(props.match.params.postId)
@@ -15,9 +17,17 @@ const SinglePost = (props) => {
           console.log(data.error)
         } else {
           setPost(data);
+          setLikes(data.likes.length);
+          setLike(checkLike(data.likes));
         }
       });
   }, [props.match.params.postId]);
+
+  const checkLike = (likes) => {
+    const userId = isAuthenticated().user._id;
+    let match = likes.indexOf(userId) !== -1;
+    return match;
+  };
 
   const deletePost = () => {
     const postId = props.match.params.postId;
@@ -38,6 +48,21 @@ const SinglePost = (props) => {
     }
   };
 
+  const toggleLike = () => {
+    let callApi = like ? unlikePost : likePost;
+    const userId = isAuthenticated().user._id;
+    const postId = post._id;
+    const token = isAuthenticated().token;
+    callApi(userId, token, postId).then(data => {
+      if (data.error) {
+        console.log(data.error);
+      } else {
+        setLike(!like);
+        setLikes(data.likes.length);
+      }
+    });
+  };
+
   const renderPost = () => {
     const posterId = post.postedBy ? `/user/${post.postedBy._id}` : "";
     const posterName = post.postedBy ? post.postedBy.name : " Unknown";
@@ -49,6 +74,9 @@ const SinglePost = (props) => {
           onError={image => image.target.src = `${defaultPostPhoto}`}
           className="img-thumbnail mb-3"
           style={{height: "300px", width: "100%", objectFit: "cover"}}/>
+        <div>
+          <h3 onClick={toggleLike}>{likes} Like</h3>
+        </div>
         <p className="card-text">{post.body}</p>
         <br/>
         <p className="font-italic mark">
