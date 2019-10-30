@@ -34,7 +34,11 @@ const userSchema = new mongoose.Schema({
       type: ObjectId,
       ref: "User"
     }],
-    salt: String
+    salt: String,
+    resetPasswordLink: {
+      data: String,
+      default: ""
+    }
   },
   {timestamps: true}
 );

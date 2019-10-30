@@ -18,7 +18,16 @@ exports.userSignupValidator = [
     check("email", "Enter a valid email").isEmail(),
     check("password", "Password is required").not().isEmpty(),
     check("password").isLength({min: 6})
-        .withMessage("Password must have at least 6 characters")
+        .withMessage("Password must be at least 6 characters long")
         .matches(/\d/)
         .withMessage("Password must contain a digit")
+];
+
+exports.passwordResetValidator = [
+  check("newPassword", "Password is required.").not().isEmpty(),
+  check("newPassword")
+    .isLength({min: 6})
+    .withMessage("Password must be at least 6 characters long")
+    .matches(/\d/)
+    .withMessage("Password must contain a digit")
 ];
