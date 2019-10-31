@@ -12,6 +12,7 @@ import FindPeople from "./user/FindPeople";
 import NewPost from "./post/NewPost";
 import SinglePost from "./post/SinglePost";
 import EditPost from "./post/EditPost";
+import ForgotPassword from "./user/ForgotPassword";
 
 const MainRouter = () => {
   return (
@@ -19,6 +20,7 @@ const MainRouter = () => {
       <Menu/>
       <Switch>
         <Route exact path="/" component={Home}/>
+        <Route exact path="/forgot-password" component={ForgotPassword}/>
         <PrivateRoute exact path="/post/create" component={NewPost}/>
         <PrivateRoute exact path="/post/edit/:postId" component={EditPost}/>
         <Route exact path="/post/:postId" component={SinglePost}/>
