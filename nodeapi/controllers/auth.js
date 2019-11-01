@@ -136,3 +136,32 @@ exports.resetPassword = (req, res) => {
     });
   });
 };
+exports.socialLogin = (req, res) => {
+  let user = User.findOne({email: req.body.email}, (err, user) => {
+    if (err || !user) {
+      user = new User(req.body);
+      req.profile = user;
+      user.save();
+
+      const token = jwt.sign(
+        {_id: user._id, iss: "NODEAPI"},
+        process.env.JWT_SECRET
+      );
+      res.cookie("t", token, {expire: new Date() + 9999});
+      const {_id, name, email} = user;
+      return res.json({token, user: {_id, name, email}});
+    } else {
+      req.profile = user;
+      user = _.extend(user, req.body);
+      user.save();
+
+      const token = jwt.sign(
+        {_id: user._id, iss: "NODEAPI"},
+        process.env.JWT_SECRET
+      );
+      res.cookie("t", token, {expire: new Date() + 9999});
+      const {_id, name, email} = user;
+      return res.json({token, user: {_id, name, email}});
+    }
+  });
+};
