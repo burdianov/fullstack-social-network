@@ -90,7 +90,7 @@ const Signin = () => {
 
       {signinForm()}
       <p>
-        <Link to="/forgot-password" className="text-danger">
+        <Link to="/forgot-password" className="btn btn-raised btn-danger">
           {" "}
           Forgot Password
         </Link>

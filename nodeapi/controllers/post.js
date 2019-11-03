@@ -17,7 +17,6 @@ exports.postById = (req, res, next, id) => {
       next();
     });
 };
-
 exports.getPosts = async (req, res) => {
   try {
     const posts = await Post.find()
@@ -29,7 +28,6 @@ exports.getPosts = async (req, res) => {
     console.error(err);
   }
 };
-
 exports.createPost = (req, res, next) => {
   // check for errors
   const {errors} = validationResult(req);
@@ -69,10 +67,9 @@ exports.createPost = (req, res, next) => {
     });
   });
 };
-
 exports.getPostsByUser = (req, res) => {
   Post.find({postedBy: req.profile._id})
-    .populate("postedBy", "_id name")
+    .populate("postedBy", "_id name role")
     .select("_id title body createdAt likes")
     .sort("createdAt")
     .exec((err, posts) => {
@@ -84,9 +81,14 @@ exports.getPostsByUser = (req, res) => {
       res.json(posts)
     });
 };
-
 exports.isPoster = (req, res, next) => {
-  let isPoster = req.post && req.auth && req.post.postedBy._id.toString() === req.auth._id.toString();
+  let sameUser = req.post && req.auth && req.post.postedBy._id.toString() === req.auth._id.toString();
+  let adminUser = req.post && req.auth && req.auth.role === "admin";
+
+  console.log("req.post: ", req.post, "; req.auth: ", req.auth);
+  console.log("sameuser: ", sameUser, "; adminuser: ", adminUser);
+
+  let isPoster = sameUser || adminUser;
 
   if (!isPoster) {
     return res.status(403).json({
@@ -95,20 +97,6 @@ exports.isPoster = (req, res, next) => {
   }
   next();
 };
-
-// exports.updatePost = (req, res, next) => {
-//   let post = req.post;
-//   post = _.extend(post, req.body);
-//   post.save(err => {
-//     if (err) {
-//       return res.status(400).json({
-//         error: err
-//       })
-//     }
-//     res.json(post);
-//   })
-// };
-
 exports.updatePost = (req, res, next) => {
   let form = new formidable.IncomingForm();
   form.keepExtensions = true;
@@ -136,7 +124,6 @@ exports.updatePost = (req, res, next) => {
     });
   });
 };
-
 exports.deletePost = (req, res) => {
   let post = req.post;
   post.remove((err, post) => {
@@ -150,16 +137,13 @@ exports.deletePost = (req, res) => {
     })
   });
 };
-
 exports.getPostPhoto = (req, res, next) => {
   res.set("Content-Type", req.post.photo.contentType);
   return res.send(req.post.photo.data);
 };
-
 exports.getPost = (req, res) => {
   return res.json(req.post);
 };
-
 exports.like = (req, res) => {
   Post.findByIdAndUpdate(
     req.body.postId, {$push: {likes: req.body.userId}}, {new: true})
@@ -173,7 +157,6 @@ exports.like = (req, res) => {
       }
     })
 };
-
 exports.unlike = (req, res) => {
   Post.findByIdAndUpdate(
     req.body.postId, {$pull: {likes: req.body.userId}}, {new: true})
