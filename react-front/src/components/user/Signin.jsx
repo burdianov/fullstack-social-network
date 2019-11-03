@@ -1,6 +1,7 @@
 import React, {useState} from 'react';
 import {Link, Redirect} from 'react-router-dom';
 import {authenticate, signin} from "../../auth";
+import SocialLogin from "./SocialLogin";
 
 const Signin = () => {
   const [email, setEmail] = useState("");
@@ -73,6 +74,11 @@ const Signin = () => {
   return (
     <div className="container">
       <h2 className="mt-5 mb-5">Signin</h2>
+
+      <hr/>
+      <SocialLogin/>
+      <hr/>
+
       <div className="alert alert-danger"
            style={{display: error ? "" : "none"}}>
         {error}
