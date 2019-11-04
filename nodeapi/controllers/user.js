@@ -17,7 +17,6 @@ exports.userById = (req, res, next, id) => {
       next();
     });
 };
-
 exports.hasAuthorization = (req, res, next) => {
   const authorized = req.profile && req.auth && req.profile._id === req.auth._id;
   if (!authorized) {
@@ -26,7 +25,6 @@ exports.hasAuthorization = (req, res, next) => {
     })
   }
 };
-
 exports.allUsers = (req, res) => {
   User.find((err, users) => {
     if (err) {
@@ -35,15 +33,13 @@ exports.allUsers = (req, res) => {
       })
     }
     res.json(users)
-  }).select("name email createdAt updatedAt");
+  }).select("name email createdAt updatedAt role");
 };
-
 exports.getUser = (req, res) => {
   req.profile.hashed_password = undefined;
   req.profile.salt = undefined;
   return res.json(req.profile);
 };
-
 exports.updateUser = (req, res, next) => {
   let form = new formidable.IncomingForm();
   form.keepExtensions = true;
@@ -73,7 +69,6 @@ exports.updateUser = (req, res, next) => {
     });
   });
 };
-
 exports.userPhoto = (req, res, next) => {
   if (req.profile.photo.data) {
     res.set("Content-Type", req.profile.photo.contentType);
@@ -81,7 +76,6 @@ exports.userPhoto = (req, res, next) => {
   }
   next();
 };
-
 exports.deleteUser = (req, res, next) => {
   let user = req.profile;
   user.remove((err, user) => {
@@ -93,7 +87,6 @@ exports.deleteUser = (req, res, next) => {
     res.json({message: "User deleted successfully."});
   });
 };
-
 exports.addFollowing = (req, res, next) => {
   User.findByIdAndUpdate(
     req.body.userId,
@@ -105,7 +98,6 @@ exports.addFollowing = (req, res, next) => {
       next();
     });
 };
-
 exports.addFollower = (req, res) => {
   User.findByIdAndUpdate(
     req.body.followId,
@@ -125,7 +117,6 @@ exports.addFollower = (req, res) => {
       res.json(result);
     });
 };
-
 exports.removeFollowing = (req, res, next) => {
   User.findByIdAndUpdate(
     req.body.userId,
@@ -137,7 +128,6 @@ exports.removeFollowing = (req, res, next) => {
       next();
     });
 };
-
 exports.removeFollower = (req, res) => {
   User.findByIdAndUpdate(
     req.body.unfollowId,
