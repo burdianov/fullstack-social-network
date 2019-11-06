@@ -1,8 +1,22 @@
-import React from "react";
+import React, {useEffect, useState} from "react";
+import {Redirect} from "react-router-dom"
 import Posts from "../post/Posts";
 import Users from "../user/Users";
+import {isAuthenticated} from "../../auth";
 
 const Admin = () => {
+  const [redirectToHome, setRedirectToHome] = useState(false);
+
+  useEffect(() => {
+    if (isAuthenticated().user.role !== "admin") {
+      setRedirectToHome(true);
+    }
+  }, []);
+
+  if (redirectToHome) {
+    return <Redirect to="/"/>
+  }
+
   return (
     <div>
       <div className="jumbotron">
