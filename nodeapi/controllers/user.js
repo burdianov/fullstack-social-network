@@ -18,12 +18,15 @@ exports.userById = (req, res, next, id) => {
     });
 };
 exports.hasAuthorization = (req, res, next) => {
-  const authorized = req.profile && req.auth && req.profile._id === req.auth._id;
+  let sameUser = req.profile && req.auth && req.profile._id.toString() === req.auth._id.toString();
+  let adminUser = req.profile && req.auth && req.auth.role === "admin";
+  const authorized = sameUser || adminUser;
   if (!authorized) {
     return res.status(403).json({
       error: "User is not authorized to perform this action"
     })
   }
+  next();
 };
 exports.allUsers = (req, res) => {
   User.find((err, users) => {
