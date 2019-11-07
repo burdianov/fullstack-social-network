@@ -5,9 +5,10 @@ import {Link} from "react-router-dom";
 
 const Posts = () => {
   const [posts, setPosts] = useState([]);
+  const [page, setPage] = useState(1);
 
   useEffect(() => {
-    getAllPosts().then(data => {
+    getAllPosts(page).then(data => {
       if (data.error) {
         console.log(data.error);
       } else {
@@ -15,6 +16,26 @@ const Posts = () => {
       }
     });
   }, []);
+
+  const loadPosts = () => {
+    getAllPosts(page).then(data => {
+      if (data.error) {
+        console.log(data.error);
+      } else {
+        setPosts(data);
+      }
+    });
+  };
+
+  const loadMore = number => {
+    setPage(page + number);
+    loadPosts();
+  };
+
+  const loadLess = number => {
+    setPage(page - number);
+    loadPosts();
+  };
 
   const renderPosts = () => {
     return (
@@ -48,6 +69,26 @@ const Posts = () => {
             </div>
           );
         })}
+        {page > 1 ? (
+          <button
+            className="btn btn-raised btn-warning mr-5 mt-5 mb-5"
+            onClick={() => loadLess(1)}
+          >
+            Previous ({page -1})
+          </button>
+        ) :(
+          ""
+        )}
+        {posts.length ? (
+          <button
+            className="btn btn-raised btn-success mt-5 mb-5"
+            onClick={() => loadMore(1)}
+            >
+            Next ({page + 1})
+          </button>
+        ) : (
+          ""
+        )}
       </div>
     )
   };
