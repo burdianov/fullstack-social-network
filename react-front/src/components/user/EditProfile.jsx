@@ -185,7 +185,8 @@ const EditProfile = (props) => {
         onError={image => image.target.src = `${defaultAvatar}`}
         alt={name}/>
 
-      {signupForm()}
+      {isAuthenticated().user.role === "admin" ||
+      (isAuthenticated().user._id === id && signupForm())}
     </div>
   );
 };

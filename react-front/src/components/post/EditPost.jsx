@@ -144,7 +144,8 @@ const EditPost = (props) => {
         onError={image => image.target.src = `${defaultPostImage}`}
         alt={title}/>
 
-      {editPostForm()}
+      {isAuthenticated().user.role === "admin" ||
+      (isAuthenticated().user._id === id && editPostForm())}
     </div>
   )
 };
