@@ -18,15 +18,27 @@ exports.postById = (req, res, next, id) => {
     });
 };
 exports.getPosts = async (req, res) => {
-  try {
-    const posts = await Post.find()
-      .populate("postedBy", "_id name")
-      .select("_id title body createdAt likes")
-      .sort({createdAt: -1});
-    await res.json(posts);
-  } catch (err) {
-    console.error(err);
-  }
+  const currentPage = req.query.page || 1;
+  const perPage = 3;
+  let totalItems;
+
+  const posts = await Post.find()
+    .countDocuments()
+    .then(count => {
+      totalItems = count;
+      return Post.find()
+        .skip((currentPage - 1) * perPage)
+        .populate("comments", "text created")
+        .populate("comments.postedBy", "_id name")
+        .populate("postedBy", "_id name")
+        .sort({createdAt: -1})
+        .limit(perPage)
+        .select("_id title body likes");
+    })
+    .then(posts => {
+      res.status(200).json(posts);
+    })
+    .catch(err => console.log(err));
 };
 exports.createPost = (req, res, next) => {
   // check for errors
