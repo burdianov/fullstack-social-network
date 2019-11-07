@@ -99,6 +99,8 @@ const EditProfile = (props) => {
         .then(data => {
           if (data.error) {
             setError(data.error);
+          } else if (isAuthenticated().user.role === "admin") {
+            setRedirectToProfile(true);
           } else {
             updateUser(data, () => {
               setRedirectToProfile(true);
